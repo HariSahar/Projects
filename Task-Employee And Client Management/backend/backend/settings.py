@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = ["*"]
 
 
 
@@ -101,10 +101,10 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #         'PORT': '5432',                 
 #     }
 # }
-database_url = os.getenv('DATABASE_URL')
+
 DATABASES = {
     'default': dj_database_url.config(
-        default=database_url,
+        default='postgresql://admin:4gq4a4P84FBl4un8b5kbFfa8JapQh6UA@dpg-crju8nij1k6c73fq5csg-a.oregon-postgres.render.com/callnote',
         conn_max_age=600
     )
 }
@@ -147,7 +147,8 @@ STATIC_URL = 'static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATIC_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 
 
