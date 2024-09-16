@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-l-^v8zn6wvs!ls9)hzgpt2y2oo-6uzy=0-0rl*&oq$ei6zok97'
+# SECRET_KEY = 'django-insecure-l-^v8zn6wvs!ls9)hzgpt2y2oo-6uzy=0-0rl*&oq$ei6zok97'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -54,6 +57,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -87,15 +91,22 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'CallNote',   
+#         'USER': 'admin',               
+#         'PASSWORD': 'lintcloud',        
+#         'HOST': 'localhost',            
+#         'PORT': '5432',                 
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'CallNote',   
-        'USER': 'admin',               
-        'PASSWORD': 'lintcloud',        
-        'HOST': 'localhost',            
-        'PORT': '5432',                 
-    }
+    'default': dj_database_url.config(
+        default='postgresql://admin:lintcloud@localhost:5432/CallNote',  
+        conn_max_age=600
+    )
 }
 
 
@@ -136,6 +147,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATIC_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -145,8 +162,9 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = False
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000", 
+    "https://66e69cbec36a78582453892d--jocular-bubblegum-6b8535.netlify.app",
 ]
+
 
 
 AUTH_USER_MODEL = 'api.CustomUserModel'
