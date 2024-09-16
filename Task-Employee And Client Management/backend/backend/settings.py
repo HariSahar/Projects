@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 
 
@@ -101,15 +101,13 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #         'PORT': '5432',                 
 #     }
 # }
-
+database_url = os.getenv('DATABASE_URL')
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://admin:lintcloud@localhost:5432/CallNote',  
+        default=database_url,
         conn_max_age=600
     )
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
