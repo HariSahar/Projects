@@ -91,22 +91,14 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'CallNote',   
-#         'USER': 'admin',               
-#         'PASSWORD': 'lintcloud',        
-#         'HOST': 'localhost',            
-#         'PORT': '5432',                 
-#     }
-# }
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://admin:4gq4a4P84FBl4un8b5kbFfa8JapQh6UA@dpg-crju8nij1k6c73fq5csg-a.oregon-postgres.render.com/callnote',
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'CallNote',   
+        'USER': 'admin',                    
+        'HOST': 'localhost',            
+        'PORT': '5432',                 
+    }
 }
 
 # Password validation
@@ -160,9 +152,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = False
 
-CORS_ALLOWED_ORIGINS = [
-    "https://66e69cbec36a78582453892d--jocular-bubblegum-6b8535.netlify.app",
-]
+CORS_ALLOWED_ORIGINS = [localhost:3000]
 
 
 
